@@ -240,7 +240,7 @@ export function createHandlers(options: HandlerOptions = {}) {
      * nothing here throws on a bad one: every line gets an `{ ok, reason }` verdict and
      * money-state only advances on frames that verify.
      */
-    tclk_apply_transcript(input: { lines: string[]; nowMs?: number }) {
+    tclk_apply_transcript(input: { lines: string[]; nowMs?: number; timestamps?: number[] }) {
       const nowMs = input.nowMs ?? Date.now();
       const steps: { index: number; type?: string; ok: boolean; reason?: string }[] = [];
       let state: ContractState | null = null;
@@ -270,7 +270,8 @@ export function createHandlers(options: HandlerOptions = {}) {
           }
           return;
         }
-        const result = applyFrame(state, frame, nowMs);
+        const frameNowMs = input.timestamps?.[index] ?? nowMs;
+        const result = applyFrame(state, frame, frameNowMs);
         state = result.state;
         steps.push({ index, type: frame.type, ok: result.ok, reason: result.reason });
       });
