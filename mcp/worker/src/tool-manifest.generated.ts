@@ -270,6 +270,13 @@ export const TOOLS: readonly ManifestTool[] = [
         "nowMs": {
           "type": "integer",
           "description": "Wall clock for the deadline guards; defaults to now."
+        },
+        "timestamps": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          },
+          "description": "Per-line wall-clock timestamps (ms); when provided, timestamps[i] is used for line i instead of nowMs."
         }
       },
       "required": [

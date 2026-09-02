@@ -200,6 +200,7 @@ export function createServer(options: HandlerOptions = {}): McpServer {
       inputSchema: {
         lines: z.array(z.string()).describe("Room lines, oldest first."),
         nowMs: z.number().int().optional().describe("Wall clock for the deadline guards; defaults to now."),
+        timestamps: z.array(z.number().int()).optional().describe("Per-line wall-clock timestamps (ms); when provided, timestamps[i] is used for line i instead of nowMs."),
       },
     },
     (args) => run(() => h.tclk_apply_transcript(args)),
